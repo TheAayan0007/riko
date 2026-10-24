@@ -1,1 +1,222 @@
-hie
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#8ed9fa">
+<title>For Riko ♡</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Patrick+Hand&display=swap');
+:root{--ink:#29466a;--pink:#ff7199;--blue:#4f9fe8;--glass:rgba(255,255,255,.82);--shadow:0 18px 60px rgba(37,88,112,.22)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;font-family:'Nunito',sans-serif;color:var(--ink);background:#a4e1fa;-webkit-tap-highlight-color:transparent}
+.scene{position:fixed;inset:0;background:linear-gradient(180deg,rgba(83,181,245,.06),rgba(49,132,75,.13)),url('riko-nature.png') center center/cover no-repeat;z-index:-2;transform:scale(1.015)}
+.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(21,70,43,.1))}
+
+.topbar{position:fixed;top:0;left:0;right:0;padding:16px clamp(16px,4vw,40px);display:flex;align-items:center;justify-content:space-between;z-index:10;color:white;text-shadow:0 2px 10px #366b7d80;pointer-events:none}
+.brand{font-size:clamp(1.2rem, 3vw, 1.8rem);font-weight:900;letter-spacing:.5px}.brand span{color:#ffed9a}
+.topnote{font-size:clamp(0.75rem, 2vw, 0.9rem);font-weight:800;letter-spacing:.08em}
+
+main{min-height:100vh;padding:84px clamp(12px, 3vw, 24px) 140px;display:flex;align-items:center;justify-content:center}
+.story{width:min(780px, 100%);padding:clamp(20px, 4.5vw, 48px);border:2px solid rgba(255,255,255,.85);border-radius:28px 35px 25px 34px;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:var(--shadow);position:relative;transition:opacity .35s,transform .35s;overflow:hidden}
+.story:before{content:"";position:absolute;inset:10px;border:1px dashed rgba(100,160,177,.38);border-radius:20px;pointer-events:none}
+.story:after{content:"✿";position:absolute;right:22px;top:12px;color:#ff9db7;font-size:28px;transform:rotate(15deg)}
+
+.eyebrow{text-align:center;text-transform:uppercase;font-size:.73rem;font-weight:900;letter-spacing:.2em;color:#5996b5;margin:0 0 6px}
+h1{font-family:'Patrick Hand',cursive;text-align:center;font-size:clamp(2.4rem, 6.5vw, 4.5rem);line-height:1;margin:0 0 6px;color:#2d5e9b}
+h1 .heart{color:var(--pink);display:inline-block;animation:beat 1.8s infinite}
+.subtitle{text-align:center;color:#6392a3;font-weight:800;font-size:clamp(0.9rem, 2.2vw, 1.05rem);margin:0 0 24px}
+
+.note{font-family:'Patrick Hand',cursive;font-size:clamp(1.1rem, 2.1vw, 1.42rem);line-height:1.56;position:relative;z-index:1}
+.note p{margin:0 0 16px}.note p:last-child{margin-bottom:0}
+.pink{color:#e85e91;font-weight:bold}.blue{color:#347fc6;font-weight:bold}.green{color:#358d70;font-weight:bold}
+.signature{text-align:right;margin-top:20px;font-family:'Patrick Hand',cursive;font-size:clamp(1.3rem, 2.5vw, 1.6rem);color:#e56891;transform:rotate(-2deg)}
+.doodle{position:absolute;left:18px;bottom:10px;font-size:1.5rem;opacity:.65;transform:rotate(-12deg)}
+
+/* Music dock - Fully responsive for smartphones, tablets & desktop */
+.music-dock{position:fixed;left:clamp(8px, 2vw, 24px);right:clamp(8px, 2vw, 24px);bottom:clamp(8px, 2vw, 20px);z-index:20;color:#f8fcff;background:rgba(23,50,60,.92);border:1px solid rgba(255,255,255,.45);box-shadow:0 15px 45px rgba(23,61,74,.35);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:24px;overflow:hidden;transition:all .35s ease}
+.dock-head{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;user-select:none}
+.disc{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ff91b6,#8ecbff);color:#204a66;font-size:20px;box-shadow:0 0 0 4px rgba(255,255,255,.1)}
+.track-summary{min-width:0;flex:1}.track-title{font-weight:900;font-size:0.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.track-artist{font-size:.75rem;color:#bdd8e4;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock-toggle,.icon-btn,.control-btn{border:0;cursor:pointer;color:inherit;background:transparent;border-radius:12px;transition:background .2s,transform .2s}
+.dock-toggle:hover,.icon-btn:hover,.control-btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.dock-toggle{padding:8px 10px;font-size:1.1rem;flex:none}
+
+.player-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,.9fr);gap:16px;padding:0 16px 16px;max-height:360px;opacity:1;transition:max-height .35s ease,opacity .25s ease,padding .35s ease;overflow:hidden}
+.music-dock.collapsed .player-body{max-height:0;opacity:0;padding-top:0;padding-bottom:0}
+
+.now-playing{display:flex;flex-direction:column;gap:10px;min-width:0;justify-content:center}
+.controls{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.control-btn{width:36px;height:34px;font-size:.95rem;display:grid;place-items:center}
+.control-btn.primary{background:#a6dafa;color:#183e55;width:42px;height:42px;border-radius:50%;font-size:1.05rem;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.control-btn.active{color:#ffb7ce;background:rgba(255,255,255,.15)}
+
+.seekrow{display:flex;align-items:center;gap:10px;font-size:.72rem;color:#c0d9e4}
+input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;height:5px;border-radius:3px}
+
+.search-panel{display:flex;flex-direction:column;gap:8px;min-width:0}
+.searchbox{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:0 10px}
+.searchbox span{font-size:.95rem;color:#cce7f1}
+.searchbox input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:white;padding:10px 0;font:inherit;font-size:.85rem}
+.searchbox input::placeholder{color:#b3cdd8}
+
+.song-list{overflow-y:auto;max-height:135px;display:flex;flex-direction:column;gap:3px;padding-right:2px;-webkit-overflow-scrolling:touch}
+.song{display:flex;align-items:center;gap:8px;text-align:left;padding:8px 10px;border:0;border-radius:10px;background:transparent;color:#edfaff;cursor:pointer;font:inherit;font-size:.8rem}
+.song:hover,.song.selected{background:rgba(255,255,255,.15)}.song .song-name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.song .song-kind{color:#a9cfde;font-size:.68rem;flex:none}
+.status{font-size:.72rem;color:#c0d9e4;min-height:1em;text-align:center}
+
+.footerline{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#c5e0e9;font-size:.68rem;padding:0 16px 10px}
+.footerline a{color:#b8e5ff;text-decoration:none}.footerline a:hover{text-decoration:underline}
+
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:30;background:#244d5b;color:white;border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:8px 14px;font-size:.82rem;box-shadow:var(--shadow);display:none;max-width:90vw;text-align:center}
+
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+
+/* Tablet & Smaller Screen Optimizations */
+@media(max-width:850px){
+  .player-body{grid-template-columns:1fr;gap:14px;max-height:420px}
+  .song-list{max-height:130px}
+}
+
+/* Smartphone Portrait & Compact Screens */
+@media(max-width:480px){
+  main{padding:76px 10px 132px;align-items:flex-start}
+  .story{padding:22px 16px;border-radius:22px}
+  .music-dock{border-radius:20px;left:6px;right:6px;bottom:6px}
+  .dock-head{padding:10px 12px;gap:10px}
+  .disc{width:36px;height:36px;font-size:18px}
+  .track-title{font-size:0.88rem}
+  .player-body{padding:0 12px 12px;gap:12px}
+  .song-list{max-height:120px}
+}
+
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"></div>
+<header class="topbar"><div class="brand">Riko <span>♥</span></div><div class="topnote">a tiny reminder for you ✿</div></header>
+<div class="toast" id="toast" role="status"></div>
+<main id="mainContent">
+  <article class="story" id="story">
+    <p class="eyebrow">a little note from me to you</p>
+    <h1>heyy riko <span class="heart">♡</span></h1>
+    <p class="subtitle">please don't forget how special you are 🌼</p>
+    <div class="note">
+      <p>Hey Riko! You’re honestly so humble, caring, polite, and just the cutest. I don't know what perspective others have of you, but you're definitely not bad luck—at least for me, you're my lucky charm and so, so special. And you don't need a reason to be special; you just are. ♡</p>
+      <p>Even if the entire world left you or turned against you, don't worry—you won't ever be alone. I’ll always be right here for you ^\_^ ♡ I'm sure Mumma, Papa, and so many others will always support you, too. (Btw, I even added a little music system to this website! 🎵)</p>
+      <p>At the end of the day, <span class="blue">you matter the most</span>, and your happiness is everything. I'll always try my best to keep problems away from you—<em>pata nahi tumhari khushi bardasht kyun nahi hoti kisi se bhi.</em> 🥺</p>
+      <p>I just want <span class="pink">you to take care of yourself</span>, too. People will come and go, but you have to stay strong for yourself. Take care of your little heart as well, okay? 🌷</p>
+    </div>
+    <div class="signature">— always cheering for you ♡</div>
+    <div class="doodle" aria-hidden="true">☁︎ ✿</div>
+  </article>
+</main>
+
+<section class="music-dock collapsed" id="musicDock" aria-label="Music player">
+  <div class="dock-head" id="dockHead" role="button" tabindex="0" aria-expanded="false" aria-label="Open music player">
+    <div class="disc">♫</div>
+    <div class="track-summary"><div class="track-title" id="currentTitle">Pick a song ♡</div><div class="track-artist" id="currentArtist">Riko's little music corner</div></div>
+    <button class="dock-toggle" id="toggleDock" aria-label="Expand music player">⌃</button>
+  </div>
+  <div class="player-body">
+    <div class="now-playing">
+      <div class="controls">
+        <button class="control-btn" id="shuffleBtn" title="Shuffle" aria-label="Shuffle">⤨</button>
+        <button class="control-btn" id="prevBtn" title="Previous" aria-label="Previous song">|◀</button>
+        <button class="control-btn primary" id="playBtn" title="Play" aria-label="Play">▶</button>
+        <button class="control-btn" id="nextBtn" title="Next" aria-label="Next song">▶|</button>
+        <button class="control-btn" id="repeatBtn" title="Repeat off" aria-label="Repeat">↻</button>
+      </div>
+      <div class="seekrow"><span id="elapsed">0:00</span><input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek song"><span id="duration">0:00</span></div>
+      <div class="seekrow"><span>🔉</span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" aria-label="Volume"><span>🔊</span></div>
+      <div class="status" id="status">Loading songs from your GitHub music library…</div>
+    </div>
+    <div class="search-panel">
+      <label class="searchbox"><span>⌕</span><input id="search" type="search" placeholder="Search songs or artists…" autocomplete="off"></label>
+      <div class="song-list" id="songList" aria-label="Songs"></div>
+    </div>
+  </div>
+  <div class="footerline"><span>made with a little care ♡</span><a href="https://github.com/TheAayan0007/musiclibrary" target="_blank" rel="noopener noreferrer">Music library on GitHub ↗</a></div>
+</section>
+<audio id="audio" preload="metadata"></audio>
+<script>
+(() => {
+ const REPO='TheAayan0007/musiclibrary';
+ const API=`https://api.github.com/repos/${REPO}/git/trees/main?recursive=1`;
+ const RAW=`https://raw.githubusercontent.com/${REPO}/main/`;
+ const audio=document.getElementById('audio'), dock=document.getElementById('musicDock');
+ const story=document.getElementById('story'), dockHead=document.getElementById('dockHead');
+ const toggleDock=document.getElementById('toggleDock'), search=document.getElementById('search');
+ const songList=document.getElementById('songList'), status=document.getElementById('status');
+ const title=document.getElementById('currentTitle'), artist=document.getElementById('currentArtist');
+ const playBtn=document.getElementById('playBtn'), seek=document.getElementById('seek');
+ const elapsed=document.getElementById('elapsed'), duration=document.getElementById('duration');
+ const repeatBtn=document.getElementById('repeatBtn'), shuffleBtn=document.getElementById('shuffleBtn');
+ let songs=[], filtered=[], index=-1, repeatMode=0, shuffle=false, toastTimer;
+ function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display='none',3200)}
+ function expand(open){dock.classList.toggle('collapsed',!open);dockHead.setAttribute('aria-expanded',String(open));toggleDock.textContent=open?'⌄':'⌃';toggleDock.setAttribute('aria-label',open?'Collapse music player':'Expand music player');story.style.opacity=open?'0':'1';story.style.transform=open?'translateY(-12px) scale(.985)':'translateY(0) scale(1)';story.style.pointerEvents=open?'none':'auto';document.getElementById('mainContent').style.visibility=open?'hidden':'visible'}
+ function fmt(s){if(!Number.isFinite(s)||s<0)return '0:00';return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`}
+ function songTitle(path){return decodeURIComponent(path.split('/').pop()).replace(/\.(mp3|flac|wav|ogg|m4a|aac|mp4|webm)$/i,'').replace(/[_]+/g,' ').trim()}
+ function setStatus(msg){status.textContent=msg}
+ function renderSongs(){
+   const q=search.value.trim().toLowerCase();
+   filtered=songs.filter(s=>s.title.toLowerCase().includes(q));
+   songList.innerHTML='';
+   if(!filtered.length){songList.innerHTML='<div class="status">No matching songs found.</div>';return}
+   filtered.slice(0,250).forEach(s=>{
+     const realIndex=songs.indexOf(s), b=document.createElement('button');b.className='song'+(realIndex===index?' selected':'');b.type='button';
+     const n=document.createElement('span');n.className='song-name';n.textContent=s.title;
+     const kind=document.createElement('span');kind.className='song-kind';kind.textContent=s.ext.toUpperCase();
+     b.append(n,kind);b.addEventListener('click',()=>playIndex(realIndex));songList.appendChild(b);
+   });
+   if(filtered.length>250){const more=document.createElement('div');more.className='status';more.textContent='Showing first 250 matches — refine your search.';songList.appendChild(more)}
+ }
+ async function loadSongs(){
+   try{
+     const res=await fetch(API,{headers:{'Accept':'application/vnd.github+json'}});
+     if(!res.ok)throw new Error(res.status===403?'GitHub API rate limit reached. Try again later.':`GitHub returned ${res.status}.`);
+     const data=await res.json();
+     songs=(data.tree||[]).filter(x=>x.type==='blob'&&/\.(mp3|flac|wav|ogg|m4a|aac)$/i.test(x.path))
+       .map(x=>({path:x.path,title:songTitle(x.path),ext:x.path.split('.').pop().toLowerCase(),url:RAW+x.path.split('/').map(encodeURIComponent).join('/')}))
+       .sort((a,b)=>a.title.localeCompare(b.title));
+     renderSongs();
+     setStatus(songs.length?`${songs.length} songs loaded from GitHub · choose one to play.`:'No audio files found in the repository.');
+   }catch(e){setStatus('Could not load GitHub library. Check your connection and try again.');notify(e.message+' You can still use your own local audio files if you add a file picker.');console.error(e)}
+ }
+ function playIndex(i){
+   if(i<0||i>=songs.length)return;
+   index=i;const s=songs[index];audio.src=s.url;title.textContent=s.title;artist.textContent='TheAayan0007 · GitHub music library';
+   renderSongs();setStatus('Loading track…');
+   const p=audio.play();if(p&&p.catch)p.catch(()=>{setStatus('Playback was blocked or this file could not be played. Tap Play to retry.');playBtn.textContent='▶'});
+   expand(true);
+ }
+ function next(){
+   if(!songs.length)return;
+   if(shuffle&&songs.length>1){let n=index;while(n===index)n=Math.floor(Math.random()*songs.length);playIndex(n)}
+   else playIndex((index+1+songs.length)%songs.length);
+ }
+ function previous(){if(audio.currentTime>3){audio.currentTime=0;return}if(songs.length)playIndex((index-1+songs.length)%songs.length)}
+ playBtn.addEventListener('click',()=>{if(index<0){if(songs.length)playIndex(0);else loadSongs();return}if(audio.paused){audio.play().catch(()=>setStatus('Tap play again to start this track.'))}else audio.pause()});
+ document.getElementById('nextBtn').addEventListener('click',next);
+ document.getElementById('prevBtn').addEventListener('click',previous);
+ shuffleBtn.addEventListener('click',()=>{shuffle=!shuffle;shuffleBtn.classList.toggle('active',shuffle);shuffleBtn.title=shuffle?'Shuffle on':'Shuffle off';setStatus(shuffle?'Shuffle is on.':'Shuffle is off.')});
+ repeatBtn.addEventListener('click',()=>{repeatMode=(repeatMode+1)%3;repeatBtn.classList.toggle('active',repeatMode!==0);repeatBtn.textContent=repeatMode===2?'↻¹':'↻';repeatBtn.title=['Repeat off','Repeat all','Repeat one'][repeatMode];setStatus(['Repeat off.','Repeat all songs.','Repeat current song.'][repeatMode])});
+ search.addEventListener('input',renderSongs);
+ audio.addEventListener('play',()=>{playBtn.textContent='Ⅱ';playBtn.setAttribute('aria-label','Pause');setStatus('Now playing ♫')});
+ audio.addEventListener('pause',()=>{playBtn.textContent='▶';playBtn.setAttribute('aria-label','Play')});
+ audio.addEventListener('loadedmetadata',()=>{duration.textContent=fmt(audio.duration);seek.value=0});
+ audio.addEventListener('timeupdate',()=>{elapsed.textContent=fmt(audio.currentTime);if(Number.isFinite(audio.duration)&&audio.duration>0)seek.value=audio.currentTime/audio.duration*100});
+ seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration)&&audio.duration>0)audio.currentTime=Number(seek.value)/100*audio.duration});
+ document.getElementById('volume').addEventListener('input',e=>audio.volume=Number(e.target.value));audio.volume=.75;
+ audio.addEventListener('ended',()=>{if(repeatMode===2){audio.currentTime=0;audio.play().catch(()=>{})}else if(repeatMode===1||shuffle||index<songs.length-1)next();else{playBtn.textContent='▶';setStatus('That was the last song. Pick another one ♡')}});
+ function toggle(){expand(dock.classList.contains('collapsed'))}
+ dockHead.addEventListener('click',e=>{if(e.target.closest('button'))return;toggle()});
+ dockHead.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
+ toggleDock.addEventListener('click',e=>{e.stopPropagation();toggle()});
+ loadSongs();
+})();
+</script>
+</body>
+</html>
