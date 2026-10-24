@@ -106,7 +106,9 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
     <div class="note">
       <p>Hey Riko! You’re honestly so humble, caring, polite, and just the cutest. I don't know what perspective others have of you, but you're definitely not bad luck—at least for me, you're my lucky charm and so, so special. And you don't need a reason to be special; you just are. ♡</p>
       <p>Even if the entire world left you or turned against you, don't worry—you won't ever be alone. I’ll always be right here for you ^\_^ ♡ I'm sure Mumma, Papa, and so many others will always support you, too. (Btw, I even added a little music system to this website! 🎵)</p>
-      <p>At the end of the day, <span class="blue">you matter the most</span>, and your happiness is everything. I'll always try my best to keep problems away from you—<em>pata nahi tumhari khushi bardasht kyun nahi hoti kisi se bhi.</em></p>
+      <p>At the end of the day, <span class="blue">you matter the most</span>, and your happiness is everything. I'll always try my best to keep problems away from you—<em>pata nahi tumhari khushi bardasht kyun nahi hoti kisi se bhi.</em> 🥺</p>
+      <p>I just wish tum negativity se bhot dur raho, and koi bhi tumhe hurt na karde. Aur jab bhi tum rone laogi, toh aake tumhari smile wapas de jaunga. (Btw, you have a very beautiful smile ✨)</p>
+      <p>I promise to stay with you always and support you unconditionally and without any reason or greed, and always keep yourself at first priority, Riko. You're amazing, a lucky charm for me, and special too. 💫</p>
       <p>I just want <span class="pink">you to take care of yourself</span>, too. People will come and go, but you have to stay strong for yourself. Take care of your little heart as well, okay? 🌷</p>
     </div>
     <div class="signature">— always cheering for you ♡</div>
@@ -117,7 +119,7 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
 <section class="music-dock collapsed" id="musicDock" aria-label="Music player">
   <div class="dock-head" id="dockHead" role="button" tabindex="0" aria-expanded="false" aria-label="Open music player">
     <div class="disc">♫</div>
-    <div class="track-summary"><div class="track-title" id="currentTitle">Pick a song ♡</div><div class="track-artist" id="currentArtist">Riko's little music corner</div></div>
+    <div class="track-summary"><div class="track-title" id="currentTitle">Pick a song ♡</div><div class="track-artist" id="currentArtist">Riko's special playlist</div></div>
     <button class="dock-toggle" id="toggleDock" aria-label="Expand music player">⌃</button>
   </div>
   <div class="player-body">
@@ -131,10 +133,10 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
       </div>
       <div class="seekrow"><span id="elapsed">0:00</span><input id="seek" type="range" min="0" max="100" value="0" aria-label="Seek song"><span id="duration">0:00</span></div>
       <div class="seekrow"><span>🔉</span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.75" aria-label="Volume"><span>🔊</span></div>
-      <div class="status" id="status">Loading songs from your GitHub music library…</div>
+      <div class="status" id="status">7 special songs loaded ♡ · choose one to play.</div>
     </div>
     <div class="search-panel">
-      <label class="searchbox"><span>⌕</span><input id="search" type="search" placeholder="Search songs or artists…" autocomplete="off"></label>
+      <label class="searchbox"><span>⌕</span><input id="search" type="search" placeholder="Search songs…" autocomplete="off"></label>
       <div class="song-list" id="songList" aria-label="Songs"></div>
     </div>
   </div>
@@ -143,9 +145,17 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
 <audio id="audio" preload="metadata"></audio>
 <script>
 (() => {
- const REPO='TheAayan0007/musiclibrary';
- const API=`https://api.github.com/repos/${REPO}/git/trees/main?recursive=1`;
- const RAW=`https://raw.githubusercontent.com/${REPO}/main/`;
+ const RAW='https://raw.githubusercontent.com/TheAayan0007/musiclibrary/main/';
+ const songs=[
+   {title: "Steve Lacy - oh yeah_ (Visualizer)", ext: "mp3", url: RAW + "Steve%20Lacy%20-%20oh%20yeah_%20(Visualizer).mp3"},
+   {title: "Dark Red", ext: "mp3", url: RAW + "Dark%20Red.mp3"},
+   {title: "Zindagi Kuch Toh Bata Reprise Bajrangi Bhaijaan 320 Kbps", ext: "mp3", url: RAW + "Zindagi%20Kuch%20Toh%20Bata%20Reprise%20Bajrangi%20Bhaijaan%20320%20Kbps.mp3"},
+   {title: "Tum Se Teri Baaton Mein Aisa Uljha Jiya 320 Kbps", ext: "mp3", url: RAW + "Tum%20Se%20Teri%20Baaton%20Mein%20Aisa%20Uljha%20Jiya%20320%20Kbps.mp3"},
+   {title: "Tanishka Bahl – Finding Her (Female Version)", ext: "mp3", url: RAW + "Tanishka%20Bahl%20%E2%80%93%20Finding%20Her%20(Female%20Version).mp3"},
+   {title: "TALKING TO THE MOON X PLAYDATE CLEANED UP TIKTOK EDIT", ext: "mp3", url: RAW + "TALKING%20TO%20THE%20MOON%20X%20PLAYDATE%20CLEANED%20UP%20TIKTOK%20EDIT.mp3"},
+   {title: "Soch Na Sake Airlift", ext: "mp3", url: RAW + "Soch%20Na%20Sake%20Airlift.mp3"}
+ ];
+
  const audio=document.getElementById('audio'), dock=document.getElementById('musicDock');
  const story=document.getElementById('story'), dockHead=document.getElementById('dockHead');
  const toggleDock=document.getElementById('toggleDock'), search=document.getElementById('search');
@@ -154,51 +164,42 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
  const playBtn=document.getElementById('playBtn'), seek=document.getElementById('seek');
  const elapsed=document.getElementById('elapsed'), duration=document.getElementById('duration');
  const repeatBtn=document.getElementById('repeatBtn'), shuffleBtn=document.getElementById('shuffleBtn');
- let songs=[], filtered=[], index=-1, repeatMode=0, shuffle=false, toastTimer;
+ let filtered=[...songs], index=-1, repeatMode=0, shuffle=false, toastTimer;
+
  function notify(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display='none',3200)}
  function expand(open){dock.classList.toggle('collapsed',!open);dockHead.setAttribute('aria-expanded',String(open));toggleDock.textContent=open?'⌄':'⌃';toggleDock.setAttribute('aria-label',open?'Collapse music player':'Expand music player');story.style.opacity=open?'0':'1';story.style.transform=open?'translateY(-12px) scale(.985)':'translateY(0) scale(1)';story.style.pointerEvents=open?'none':'auto';document.getElementById('mainContent').style.visibility=open?'hidden':'visible'}
  function fmt(s){if(!Number.isFinite(s)||s<0)return '0:00';return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`}
- function songTitle(path){return decodeURIComponent(path.split('/').pop()).replace(/\.(mp3|flac|wav|ogg|m4a|aac|mp4|webm)$/i,'').replace(/[_]+/g,' ').trim()}
  function setStatus(msg){status.textContent=msg}
+
  function renderSongs(){
    const q=search.value.trim().toLowerCase();
    filtered=songs.filter(s=>s.title.toLowerCase().includes(q));
    songList.innerHTML='';
    if(!filtered.length){songList.innerHTML='<div class="status">No matching songs found.</div>';return}
-   filtered.slice(0,250).forEach(s=>{
+   filtered.forEach(s=>{
      const realIndex=songs.indexOf(s), b=document.createElement('button');b.className='song'+(realIndex===index?' selected':'');b.type='button';
      const n=document.createElement('span');n.className='song-name';n.textContent=s.title;
      const kind=document.createElement('span');kind.className='song-kind';kind.textContent=s.ext.toUpperCase();
      b.append(n,kind);b.addEventListener('click',()=>playIndex(realIndex));songList.appendChild(b);
    });
-   if(filtered.length>250){const more=document.createElement('div');more.className='status';more.textContent='Showing first 250 matches — refine your search.';songList.appendChild(more)}
  }
- async function loadSongs(){
-   try{
-     const res=await fetch(API,{headers:{'Accept':'application/vnd.github+json'}});
-     if(!res.ok)throw new Error(res.status===403?'GitHub API rate limit reached. Try again later.':`GitHub returned ${res.status}.`);
-     const data=await res.json();
-     songs=(data.tree||[]).filter(x=>x.type==='blob'&&/\.(mp3|flac|wav|ogg|m4a|aac)$/i.test(x.path))
-       .map(x=>({path:x.path,title:songTitle(x.path),ext:x.path.split('.').pop().toLowerCase(),url:RAW+x.path.split('/').map(encodeURIComponent).join('/')}))
-       .sort((a,b)=>a.title.localeCompare(b.title));
-     renderSongs();
-     setStatus(songs.length?`${songs.length} songs loaded from GitHub · choose one to play.`:'No audio files found in the repository.');
-   }catch(e){setStatus('Could not load GitHub library. Check your connection and try again.');notify(e.message+' You can still use your own local audio files if you add a file picker.');console.error(e)}
- }
+
  function playIndex(i){
    if(i<0||i>=songs.length)return;
-   index=i;const s=songs[index];audio.src=s.url;title.textContent=s.title;artist.textContent='TheAayan0007 · GitHub music library';
+   index=i;const s=songs[index];audio.src=s.url;title.textContent=s.title;artist.textContent='Riko’s Special Playlist ♡';
    renderSongs();setStatus('Loading track…');
    const p=audio.play();if(p&&p.catch)p.catch(()=>{setStatus('Playback was blocked or this file could not be played. Tap Play to retry.');playBtn.textContent='▶'});
    expand(true);
  }
+
  function next(){
    if(!songs.length)return;
    if(shuffle&&songs.length>1){let n=index;while(n===index)n=Math.floor(Math.random()*songs.length);playIndex(n)}
    else playIndex((index+1+songs.length)%songs.length);
  }
  function previous(){if(audio.currentTime>3){audio.currentTime=0;return}if(songs.length)playIndex((index-1+songs.length)%songs.length)}
- playBtn.addEventListener('click',()=>{if(index<0){if(songs.length)playIndex(0);else loadSongs();return}if(audio.paused){audio.play().catch(()=>setStatus('Tap play again to start this track.'))}else audio.pause()});
+
+ playBtn.addEventListener('click',()=>{if(index<0){if(songs.length)playIndex(0);return}if(audio.paused){audio.play().catch(()=>setStatus('Tap play again to start this track.'))}else audio.pause()});
  document.getElementById('nextBtn').addEventListener('click',next);
  document.getElementById('prevBtn').addEventListener('click',previous);
  shuffleBtn.addEventListener('click',()=>{shuffle=!shuffle;shuffleBtn.classList.toggle('active',shuffle);shuffleBtn.title=shuffle?'Shuffle on':'Shuffle off';setStatus(shuffle?'Shuffle is on.':'Shuffle is off.')});
@@ -215,7 +216,8 @@ input[type=range]{accent-color:#9ad7ff;min-width:0;width:100%;cursor:pointer;hei
  dockHead.addEventListener('click',e=>{if(e.target.closest('button'))return;toggle()});
  dockHead.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()}});
  toggleDock.addEventListener('click',e=>{e.stopPropagation();toggle()});
- loadSongs();
+
+ renderSongs();
 })();
 </script>
 </body>
